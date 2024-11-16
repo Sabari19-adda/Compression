@@ -1,0 +1,23 @@
+def download_and_compress_file(url, compressed_file_name):
+    import urllib.request
+    import gzip
+    import os
+    
+    response = urllib.request.urlopen(url)
+    data = response.read()
+    original_size = len(data) / (1024 * 1024)
+    
+    with gzip.open(compressed_file_name, 'wb') as f:
+        f.write(data)
+    
+    compressed_size = os.path.getsize(compressed_file_name) / (1024 * 1024)
+    compression_ratio = original_size / compressed_size
+    
+    print(f"Original size: {original_size:.2f} MB")
+    print(f"Compressed size: {compressed_size:.2f} MB")
+    print(f"Compression ratio: {compression_ratio:.2f}")
+
+url = "https://www.gutenberg.org/files/135/135-0.txt"
+compressed_file_name = "compressed_file.gz"
+
+download_and_compress_file(url, compressed_file_name)
